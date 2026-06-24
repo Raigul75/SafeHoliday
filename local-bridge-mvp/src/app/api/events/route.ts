@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
 
-    // @ts-ignore
     if (!session || !session.user?.id || session.user?.role !== "HOST") {
       return NextResponse.json({ message: "Unauthorized. Only hosts can create events." }, { status: 403 })
     }
