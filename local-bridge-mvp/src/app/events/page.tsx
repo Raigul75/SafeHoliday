@@ -61,7 +61,7 @@ export default async function EventsPage({
 
           {/* Quick Category Tags */}
           <div className="flex flex-wrap gap-2">
-            {["All", "Weekend Trip", "Meetup", "Culture", "Hiking", "Arts", "Food"].map((tag) => (
+            {["All", "Real Family Event", "Weekend Trip", "Meetup", "Culture & Food", "Active"].map((tag) => (
               <Link key={tag} href={tag === "All" ? "/events" : `/events?category=${tag}`}>
                 <Badge 
                   variant={selectedCategory === tag ? "default" : "outline"} 

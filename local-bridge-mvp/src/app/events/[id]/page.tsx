@@ -74,8 +74,22 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
           {/* Right Column (Booking Widget) */}
           <div className="lg:col-span-1">
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-xl shadow-black/5 sticky top-28">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">{event.price}</h3>
-              <p className="text-gray-500 mb-6 border-b pb-6">Secure your spot for this experience. Total is held in escrow until completion.</p>
+              {event.category === "Real Family Event" ? (
+                <>
+                  <Badge className="bg-amber-100 text-amber-800 border-none mb-3">Cultural Contribution</Badge>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{event.price}</h3>
+                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+                    <p className="text-sm text-amber-900 leading-relaxed">
+                      This is a non-commercial cultural event. Your contribution goes directly to the host family to cover the costs of hospitality (food, gifts) and supports the preservation of traditions.
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{event.price}</h3>
+                  <p className="text-gray-500 mb-6 border-b pb-6">Secure your spot for this experience. Total is held in escrow until completion.</p>
+                </>
+              )}
               
               <BookingButton eventId={event.id} />
               

@@ -95,6 +95,7 @@ export default function NewEventPage() {
                 <option>Active</option>
                 <option>Weekend Trip</option>
                 <option>Culture & Food</option>
+                <option>Real Family Event</option>
               </select>
             </div>
             
@@ -112,7 +113,9 @@ export default function NewEventPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {formData.category === "Real Family Event" ? "Cultural Contribution (e.g. 15,000 ₸)" : "Price"}
+            </label>
             <input 
               required
               type="text" 
