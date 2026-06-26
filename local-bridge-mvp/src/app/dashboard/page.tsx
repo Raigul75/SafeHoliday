@@ -16,6 +16,10 @@ export default async function DashboardPage() {
   // @ts-ignore
   const role = session.user.role
 
+  if (role === "CURATOR") {
+    redirect("/curator")
+  }
+
   if (role === "EXPAT") {
     const bookings = await prisma.booking.findMany({
       where: { userId: session.user.id },
