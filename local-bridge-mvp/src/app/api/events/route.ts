@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { translate } from "@vitalets/google-translate-api"
 
 export async function POST(req: Request) {
   try {
@@ -25,11 +26,26 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Missing required fields" }, { status: 400 })
     }
 
+    let finalTitle = title;
+    let finalDescription = description;
+
+    if (role === "CURATOR") {
+      try {
+        const titleRes = await translate(title, { to: "en" });
+        finalTitle = titleRes.text;
+
+        const descRes = await translate(description, { to: "en" });
+        finalDescription = descRes.text;
+      } catch (err) {
+        console.error("Translation error:", err);
+      }
+    }
+
     // Create a new event
     const event = await prisma.event.create({
       data: {
-        title,
-        description,
+        title: finalTitle,
+        description: finalDescription,
         category,
         date,
         price,
