@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
+import { ModerationActions } from "@/components/ModerationActions"
 
 export default async function CuratorDashboardPage() {
   const session = await getServerSession(authOptions)
@@ -36,6 +37,7 @@ export default async function CuratorDashboardPage() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Host</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bookings</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -50,10 +52,15 @@ export default async function CuratorDashboardPage() {
                   <div className="text-sm text-gray-500">{event.host?.email}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <Badge variant="outline">{event.status}</Badge>
+                  <Badge variant={event.status === "APPROVED" ? "default" : event.status === "PENDING" ? "outline" : "destructive"}>
+                    {event.status}
+                  </Badge>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {event.bookings.length} pax
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-right">
+                  <ModerationActions eventId={event.id} currentStatus={event.status} />
                 </td>
               </tr>
             ))}

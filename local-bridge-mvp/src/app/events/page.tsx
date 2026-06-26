@@ -13,7 +13,10 @@ export default async function EventsPage({
   const resolvedSearchParams = await searchParams;
   const selectedCategory = resolvedSearchParams.category || "All";
   
-  const whereClause = selectedCategory !== "All" ? { category: selectedCategory } : {};
+  const whereClause: any = { status: "APPROVED" };
+  if (selectedCategory !== "All") {
+    whereClause.category = selectedCategory;
+  }
   
   const events = await prisma.event.findMany({
     where: whereClause,

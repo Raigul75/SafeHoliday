@@ -35,6 +35,7 @@ export async function POST(req: Request) {
         price,
         imageUrl: imageUrl || "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=800&auto=format&fit=crop&q=60",
         hostId: session.user.id,
+        status: role === "CURATOR" ? "APPROVED" : "PENDING",
       }
     })
 

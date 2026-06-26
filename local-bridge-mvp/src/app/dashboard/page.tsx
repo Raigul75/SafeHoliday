@@ -96,7 +96,12 @@ export default async function DashboardPage() {
               <div key={event.id} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">{event.title}</h3>
+                    <div className="flex items-center gap-3">
+                      <h3 className="text-xl font-bold text-gray-900">{event.title}</h3>
+                      <Badge variant={event.status === "APPROVED" ? "default" : event.status === "PENDING" ? "outline" : "destructive"}>
+                        {event.status}
+                      </Badge>
+                    </div>
                     <p className="text-gray-500 text-sm mt-1">{event.date} • {event.price}</p>
                   </div>
                   <Badge className="bg-(--color-secondary) text-white border-none">{event.bookings.length} Bookings</Badge>

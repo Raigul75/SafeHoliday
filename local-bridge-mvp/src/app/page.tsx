@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 
 export default async function Home() {
   const events = await prisma.event.findMany({
+    where: { status: "APPROVED" },
     take: 3,
     orderBy: { createdAt: 'desc' }
   });
