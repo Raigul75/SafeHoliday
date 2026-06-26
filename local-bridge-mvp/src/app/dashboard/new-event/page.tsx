@@ -4,8 +4,11 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 
+import { useSession } from "next-auth/react"
+
 export default function NewEventPage() {
   const router = useRouter()
+  const { data: session } = useSession()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
@@ -30,7 +33,12 @@ export default function NewEventPage() {
       })
 
       if (res.ok) {
-        router.push("/dashboard")
+        // @ts-ignore
+        if (session?.user?.role === "CURATOR") {
+          router.push("/curator")
+        } else {
+          router.push("/dashboard")
+        }
         router.refresh()
       } else {
         const data = await res.json()
@@ -116,7 +124,14 @@ export default function NewEventPage() {
           </div>
 
           <div className="pt-4 flex justify-end gap-4">
-            <Button variant="outline" type="button" onClick={() => router.push("/dashboard")}>Cancel</Button>
+            <Button 
+              variant="outline" 
+              type="button" 
+              // @ts-ignore
+              onClick={() => router.push(session?.user?.role === "CURATOR" ? "/curator" : "/dashboard")}
+            >
+              Cancel
+            </Button>
             <Button type="submit" disabled={loading}>
               {loading ? "Publishing..." : "Publish Event"}
             </Button>
