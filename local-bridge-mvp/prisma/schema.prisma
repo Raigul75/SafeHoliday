@@ -15,10 +15,12 @@ model User {
   name      String?
   email     String   @unique
   password  String
-  role      String   @default("EXPAT") // EXPAT, HOST, ADMIN
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  bookings  Booking[]
+  role       String   @default("EXPAT") // EXPAT, HOST, ADMIN, CURATOR
+  trustLevel String   @default("BASIC") // BASIC, VERIFIED, TRUSTED
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  bookings   Booking[]
+  events     Event[]
 }
 
 model Event {
@@ -30,9 +32,11 @@ model Event {
   price       String
   imageUrl    String
   hostId      String?
+  status      String   @default("PENDING") // PENDING, APPROVED, REJECTED
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   bookings    Booking[]
+  host        User?    @relation(fields: [hostId], references: [id])
 }
 
 model Booking {

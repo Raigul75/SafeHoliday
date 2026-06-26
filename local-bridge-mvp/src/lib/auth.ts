@@ -35,6 +35,7 @@ export const authOptions: NextAuthOptions = {
           name: user.name,
           email: user.email,
           role: user.role,
+          trustLevel: user.trustLevel,
         };
       }
     })
@@ -44,6 +45,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.trustLevel = (user as any).trustLevel;
       }
       return token;
     },
@@ -51,6 +53,7 @@ export const authOptions: NextAuthOptions = {
       if (token && session.user) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.trustLevel = token.trustLevel;
       }
       return session;
     }

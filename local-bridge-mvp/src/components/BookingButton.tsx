@@ -46,6 +46,19 @@ export function BookingButton({ eventId }: { eventId: string }) {
     )
   }
 
+  // @ts-ignore
+  if (session && session.user?.trustLevel === "BASIC") {
+    return (
+      <Button 
+        size="lg" 
+        onClick={() => alert("Redirecting to Security Verification...")} 
+        className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-600 text-black text-lg px-8 shadow-xl shadow-black/20"
+      >
+        Complete Security Verification to Book
+      </Button>
+    )
+  }
+
   return (
     <Button 
       size="lg" 

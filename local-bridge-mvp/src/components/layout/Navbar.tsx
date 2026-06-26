@@ -66,9 +66,15 @@ export function Navbar() {
             {session ? (
               <div className="flex items-center gap-4">
                 <span className="font-medium text-gray-700">Hello, {session.user?.name || "User"}</span>
-                <Link href="/dashboard" className="text-(--color-primary) font-medium hover:underline">
-                  Dashboard
-                </Link>
+                {session.user?.role === "CURATOR" ? (
+                  <Link href="/curator" className="text-(--color-primary) font-medium hover:underline">
+                    Curator Panel
+                  </Link>
+                ) : (
+                  <Link href="/dashboard" className="text-(--color-primary) font-medium hover:underline">
+                    Dashboard
+                  </Link>
+                )}
                 <Button variant="outline" onClick={() => signOut()} className="rounded-full px-6">
                   Log out
                 </Button>
@@ -125,9 +131,15 @@ export function Navbar() {
             <div className="pt-4 flex flex-col gap-3">
               {session ? (
                 <>
-                  <Button className="w-full justify-center rounded-full" asChild>
-                    <Link href="/dashboard">Dashboard</Link>
-                  </Button>
+                  {session.user?.role === "CURATOR" ? (
+                    <Button className="w-full justify-center rounded-full" asChild>
+                      <Link href="/curator">Curator Panel</Link>
+                    </Button>
+                  ) : (
+                    <Button className="w-full justify-center rounded-full" asChild>
+                      <Link href="/dashboard">Dashboard</Link>
+                    </Button>
+                  )}
                   <Button variant="outline" className="w-full justify-center" onClick={() => signOut()}>
                     Log out
                   </Button>

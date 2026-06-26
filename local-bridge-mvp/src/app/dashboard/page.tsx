@@ -69,10 +69,18 @@ export default async function DashboardPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Host Dashboard</h1>
-          <a href="/dashboard/new-event" className="bg-(--color-primary) text-white px-4 py-2 rounded-md font-semibold hover:bg-opacity-90 transition-opacity">
-            + Create Event
-          </a>
+          {session.user.trustLevel === "TRUSTED" && (
+            <a href="/dashboard/new-event" className="bg-(--color-primary) text-white px-4 py-2 rounded-md font-semibold hover:bg-opacity-90 transition-opacity">
+              + Create Event
+            </a>
+          )}
         </div>
+        
+        {session.user.trustLevel !== "TRUSTED" && (
+          <div className="mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-yellow-800">
+            <strong>Security Verification Pending:</strong> Your account is currently under review by our Community Curators. You will be able to publish events independently once you reach the TRUSTED level.
+          </div>
+        )}
         
         {events.length === 0 ? (
           <div className="bg-white p-8 rounded-2xl border border-gray-100 text-center">

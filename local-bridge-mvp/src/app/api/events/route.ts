@@ -7,8 +7,15 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session || !session.user?.id || session.user?.role !== "HOST") {
-      return NextResponse.json({ message: "Unauthorized. Only hosts can create events." }, { status: 403 })
+    if (!session || !session.user?.id) {
+      return NextResponse.json({ message: "Unauthorized." }, { status: 401 })
+    }
+
+    const { role, trustLevel } = session.user
+    
+    // In Phase 1, only CURATOR can create events, or a TRUSTED host (for future Phase 2).
+    if (role !== "CURATOR" && !(role === "HOST" && trustLevel === "TRUSTED")) {
+      return NextResponse.json({ message: "Forbidden. Only Curators or Trusted Hosts can create events." }, { status: 403 })
     }
 
     const body = await req.json()
